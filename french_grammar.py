@@ -18,7 +18,9 @@ grammar = CFG.fromstring("""
 """)
 parser = nltk.ChartParser(grammar)
 
+print("Gramatica con ambiguedad y recursividad a la izquierda")
 sentence = "Je aime la maison"
+print(sentence)
 tokens = sentence.split()
 
 trees = list(parser.parse(tokens))
@@ -33,7 +35,10 @@ for tree in trees:
 grammar = CFG.fromstring("""
     S -> NP
     NP -> Pron B | A
-    A -> NP CONJ NP | NP
+    A -> D
+    D -> NP E
+    E -> CONJ F
+    F -> Pron B
     B -> Verb C
     C -> Det COD
 
@@ -45,7 +50,8 @@ grammar = CFG.fromstring("""
 """)
 parser = nltk.ChartParser(grammar)
 
-sentence = "Je aime la maison et Tu aime la maison"
+print("Gramatica sin ambiguedad")
+sentence = "Je mange une pomme et Tu aime la musique ou Il regarde le film"
 tokens = sentence.split()
 
 trees = list(parser.parse(tokens))
