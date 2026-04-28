@@ -19,7 +19,18 @@ grammar = CFG.fromstring("""
 parser = nltk.ChartParser(grammar)
 
 print("Gramatica con ambiguedad y recursividad a la izquierda")
-sentence = "Je aime la maison"
+sentence = "Je mange une pomme"
+print(sentence)
+tokens = sentence.split()
+
+trees = list(parser.parse(tokens))
+
+print("arboles:", len(trees))
+
+for tree in trees:
+    tree.pretty_print()
+
+sentence = "Je mange une pomme et Tu aime la musique"
 print(sentence)
 tokens = sentence.split()
 

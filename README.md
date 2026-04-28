@@ -105,7 +105,7 @@ Before making the parser LL(1), we need to check for *ambiguity* and *left recur
 * Left recursion: the tree can only grow towards the left not the right
 
 ### Initial Grammar
-```
+```pyton
 S -> NP
 NP -> Pron B | A
 A -> NP CONJ NP | NP
@@ -118,6 +118,36 @@ Verb -> 'est' | 'avoir' | 'mange' | 'regarde' | 'parler' | 'aime' | 'a' | 'parle
 COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison' | 'gateau' | 'salade' |'livre' | 'francais' | 'chanson' | 'radio'
 Det -> 'le' | 'la' | 'une' | 'un'
 ```
+In this grammar we have terminal and Non-Terminal variables, which will help us do the first and follow table, and transition table. The terminaal variables are the ones that are ging to give us to the final sentence, and the non-terminal are the ones that will give us the path to get there.
+* Non-Terminal: S, NP, A, B, C
+* Terminal: Pron, CONJ, Verb, COD, Det.<br>
+
+This is my initial Grammar, given this grammar we can see that it has ambiguity, because if we try a sentence it creates more than one tree. It also hase left recursion because as we can see in NP, it diverges towards the left, making it have left recursion. In order ro have ambiguity, we have to use conjunctions or complex sentences. In this way the patterns repeat itself creating two or more trees. Using as example this sentence: `Je mange une pomme et Tu aime la musique`, which means `I eat an apple and you love music`. Given this complex sentence, we get four trees: 
+| Tree | Image |
+|------|-------|
+| First tree | ![tree_1](tree_1.png) |
+| Second tree | ![tree_2](tree_2.png) |
+| Third tree | ![tree_3](tree_3.png) |
+| Fourth tree | ![tree_4](tree_4.png) |
+### Eliminate ambiguity
+In order to eliminate ambiguity, you have to add intermidate states or subgroups, that indicates a presedence. After having a long time to process this, we get the following grammat without ambiguity: 
+```pyton
+S -> NP
+    NP -> Pron B | NP E
+    E -> CONJ F
+    F -> Pron B
+    B -> Verb C
+    C -> Det COD
+
+    Pron -> 'Je' | 'Tu' | 'Il' | 'Elle' | 'Nous' | 'Vous' | 'Ils' | 'Elles'
+    CONJ -> 'et' | 'ou'
+    Verb -> 'etre' | 'avoir' | 'mange' | 'regarde' | 'parler' | 'aime'
+    COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison'
+    Det -> 'le' | 'la' | 'une' | 'un'
+```
+Know we are going to try it, using the python code to check if we have eliminated ambiguity completly.
+![tree_1_no_ambiguity](tree_1_no_ambiguity.png)
+As we can see in the example we only get one tree, meaning that we have eliminated it correctly.
 ## Grammar that recognizes the language
 
 ## Analysis
