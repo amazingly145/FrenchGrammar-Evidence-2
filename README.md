@@ -175,7 +175,7 @@ So, we get the intermediate state NP', or in the python program is called NPP. A
 NP -> F NPP 
 NPP -> E NPP | 
 ```
-The empty state is called epsilon, which is the final state that the sentence reaches. Now that we have eliminated ambiguity and left recursion, we get the following grammarr: 
+The empty state is called epsilon, which is the final state that the sentence reaches. Now that we have eliminated ambiguity and left recursion, we get the following grammar: 
 ```python
 S -> NP
 NP -> F NPP 
@@ -191,9 +191,46 @@ Verb -> 'est' | 'avoir' | 'mange' | 'regarde' | 'parler' | 'aime' | 'a' | 'parle
 COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison' | 'gateau' | 'salade' |'livre' | 'francais' | 'chanson' | 'radio'
 Det -> 'le' | 'la' | 'une' | 'un' 
 ```
-In order, to make sure that this process, are made corrrectly, we use the program to verify this two areas, and we get this only tree:
+In order, to make sure that this process, are made corrrectly, we use the program to verify this two areas, and we get this only tree: <br>
 ![tree_5](tree_5.png)
+### First and Follow table
+Now, that we have our grammar with no ambiguity and left recursion, we have to the first and follow table, In this we only represent the non terminal variables, as we are lookig for the terminal variables, in order to get the sentence we are looking for:
+
+| Nonterminal | First | Follow |
+|:-----------:|-------|--------|
+| S | Je | $ |
+| Oracion | Je | $ |
+| NP | Je | $ |
+| NP' | ", et | $ |
+| E | et | ", et |
+| F | Je | ", et |
+| B | mange | ", et |
+| C | une | ", et |
+
+In this case, it allways almost starts with $, because it only get to the conjunctions when it gets the NP' onwards, as this is where we get the terminal stages.
+
+## Transition Table: LL(1) Parsing Table
+
+Using the Princeton Platform (https://www.cs.princeton.edu/courses/archive/spring20/cos320/LL1/). We get the followng table, where we can analyze all of the patterns and how the tree isgoing to behave, in order to get this table it is necesarry to have al the steps before. With this we can analyze the behaviour of our parser tree:
+| | $ | " | Je | et | mange | pomme | une |
+|---|---|---|---|---|---|---|---|
+| S | | | S ::= Oracion $ | | | | |
+| Oracion | | | Oracion ::= NP | | | | |
+| NP | | | NP ::= F NP' | | | | |
+| NP' | | NP' ::= " | | NP' ::= E NP' | | | |
+| E | | | | E ::= CONJ F | | | |
+| F | | | F ::= Pron B | | | | |
+| B | | | | | B ::= Verb C | | |
+| C | | | | | | | C ::= Det COD |
+| Pron | | | Pron ::= Je | | | | |
+| CONJ | | | | CONJ ::= et | | | |
+| Verb | | | | | Verb ::= mange | | |
+| COD | | | | | | COD ::= pomme | |
+| Det | | | | | | | Det ::= une |
+## Parse with push down automata
+Here is the final grammar having all the steps behind, know we are going to explain how it was implemented and what each state represents: 
 ## Grammar that recognizes the language
+
 
 ## Analysis
 
