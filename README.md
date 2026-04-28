@@ -215,7 +215,7 @@ In this case, it allways almost starts with $, because it only get to the conjun
 
 ## Transition Table: LL(1) Parsing Table
 
-Using the Princeton Platform (https://www.cs.princeton.edu/courses/archive/spring20/cos320/LL1/). We get the followng table, where we can analyze all of the patterns and how the tree isgoing to behave, in order to get this table it is necesarry to have al the steps before. With this we can analyze the behaviour of our parser tree:
+Using the Princeton Platform. We get the followng table, where we can analyze all of the patterns and how the tree isgoing to behave, in order to get this table it is necesarry to have al the steps before. With this we can analyze the behaviour of our parser tree:
 | | $ | " | Je | et | mange | pomme | une |
 |---|---|---|---|---|---|---|---|
 | S | | | S ::= Oracion $ | | | | |
@@ -293,25 +293,71 @@ To test the code, a program was made where diffrent sentences are implemented an
 * `"Nous mange un gateau ou Tu chante une radio"`
 
 ### Incorrect sentences
-* `"un pomme mange Je et un pizza mange Tu",`
-* `"la musique aime Tu ou le film regarde Il",`
-* `"une chanson ecoute Elle et une radio chante Nous",`
-* `"un gateau mange Vous ou un tableau regarde Ils",`
-* `"une pomme mange Je et Tu aime la musique",`
-* `"un film regarde Il ou Elle ecoute une chanson",`
-* `"la pizza aime Tu et Nous parle un francais",`
-* `"Je mange une pomme et la musique aime Tu",`
-* `"Il regarde un film ou une chanson ecoute Elle",`
-* `"Tu aime la pizza et un francais parle Nous",`
-* `"Je pomme mange une et Tu musique aime la",`
-* `"Il film regarde un ou Elle chanson ecoute une",`
+* `"un pomme mange Je et un pizza mange Tu"`
+* `"la musique aime Tu ou le film regarde Il"`
+* `"une chanson ecoute Elle et une radio chante Nous"`
+* `"un gateau mange Vous ou un tableau regarde Ils"`
+* `"une pomme mange Je et Tu aime la musique"`
+* `"un film regarde Il ou Elle ecoute une chanson"`
+* `"la pizza aime Tu et Nous parle un francais"`
+* `"Je mange une pomme et la musique aime Tu"`
+* `"Il regarde un film ou une chanson ecoute Elle"`
+* `"Tu aime la pizza et un francais parle Nous"`
+* `"Je pomme mange une et Tu musique aime la"`
+* `"Il film regarde un ou Elle chanson ecoute une"`
 ### Running the program
+If you want to see more of the process that I followed to found the grammar, and all of the components, you can use `fench_grammar.py`. In here you can see a little bit of the process that I followed.
 
+Menawhile, if you just want to see the final result or code you can get into the program of `french_grammar_final.py`. In here, there is already defined the correct and incorrect sentences, you just need to run the code and see the final results! How the code works, is that we define our grammar, use a library in order to get the trees, and if a tree is found then the sentence is accepted.
 
 ## Analysis
 ### Asymptotic analysis
+The code has an asymptotical analysis of O(n), as it only uses one for cycle, but it is important to note that this process is done repetetively with each one of the words, which adds and extra level of complexity. Since, this grammar is represented to only create one tree, meaning that it has no ambiguity and left recursiveness. So the for loop is O(1), this is not the best implementation but it in complexity is not that bad, as it doesn't have a lot of for loops.
 ### Type of Grammar
+This is done with the chomsky method, which is used to get the LL(1). This is done through the process done before:
+1. Eliminate ambiguity..
+2. Eliminate Left recursion
+3. First and Follow table
+4. Parsing table.
+
+Through this steps we get a LL(1), which is a parsing method that helps us analyza the structure of a grammar of a language, and in this way the code can recognize this patterns and determine wether a sentence is correct or incorrect.
 ### Other methods
+I asked claude about it, and he gave me other solutions using differente libraries, which can help in the complexity, like the Lark library that is designed to build parser, which this would make the code feel more natural and nt that forced. Helping in the complexity area. It alse ceates th tree faster and it suppots both: top down and bottom up parding. Like the following code example: 
+```python
+from lark import Lark
+
+grammar = """
+    start: np
+    np: pron verb det cod
+    pron: "Je" | "Tu" | "Il" | "Elle"
+    verb: "mange" | "aime" | "regarde"
+    det: "le" | "la" | "une" | "un"
+    cod: "pomme" | "film" | "musique"
+"""
+
+parser = Lark(grammar)
+
+sentences = ["Je mange une pomme", "Tu aime la musique"]
+
+for i in range(len(sentences)):
+    try:
+        tree = parser.parse(sentences[i])
+        print("[ACCEPTED] " + sentences[i])
+        print(tree.pretty())
+    except:
+        print("[REJECTED] " + sentences[i])
+```
+As you can see it is implemented differently, but at the end of the day you get the same result except that faster 
 
 ## References
+EBSCO Information Services. (2024). *French language*. EBSCO Research Starters. 
 https://www.ebsco.com/research-starters/language-and-linguistics/french-language
+
+Princeton University. (2020). *LL(1) parser generator*. Department of Computer Science, COS320. 
+https://www.cs.princeton.edu/courses/archive/spring20/cos320/LL1/
+
+EBSCO Information Services. (2024). *French language*. EBSCO Research Starters. 
+https://www.ebsco.com/research-starters/language-and-linguistics/french-language
+
+Princeton University. (2020). *LL(1) parser generator*. Department of Computer Science, COS320. 
+https://www.cs.princeton.edu/courses/archive/spring20/cos320/LL1/
