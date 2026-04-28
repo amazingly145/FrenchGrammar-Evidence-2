@@ -3,7 +3,7 @@ Andrea Iliana Cantú Mayorga - A01753419
 
 ## Description
 The french lannguage is spoken by over 330 million people around the world, making it the third most spoken language in Europe, following by German and English. 
-<br>
+
 It serves as the official language in several countries, including France, Canada, Belgium, Rwanda, and more. French is a Romance language, deriving primarily from Latin, and it has evolved through significant influences from over 120 other languages, including Gaulish, Frankish, and Old Norse. The language's history can be categorized into three main eras: Old French (840-1400), Middle French (1300-1500), and Modern French (1600-present) (EBSCO, 2026).
 
 ### Language Structure
@@ -14,7 +14,7 @@ French structures have a certain pattern and clear rules to follow. First we nee
 
 #### Simple declarative sentences
 We use a simple declarative sentence (une phrase affirmative simple) to state something – to recount an event, give information, share a thought and more – all in a positive form.
-<br>
+
 
 In French, word order is very important – you can only change it in certain cases. In a simple declarative sentence, the usual order is: subject – verb – object(s). This differs from a complex sentence, which contains two or more conjugated verbs. The direct object is directly affected by the action of the verb. We can see an example with the sentence *"Je mange une pomme"*:
 * Je -> pronoun (subject).
@@ -96,9 +96,9 @@ The model that we will be using is a grammar which can be validated for simple a
   * `radio:` radio
 
 ## Grammar
-Lexical analysis or scanning, is the first phase of a compiler. In this phase, the compiler reads the source code character by character and groups them in subgroups called tokens, which are the passed to the next of compilation known as *syntax analysis*. <br>
+Lexical analysis or scanning, is the first phase of a compiler. In this phase, the compiler reads the source code character by character and groups them in subgroups called tokens, which are the passed to the next of compilation known as *syntax analysis*. 
 In this evidence we are going to do a LL(1) with no backtracking or reccursive decent 
-<br>
+
 *Syntax analysis* is also called Parsing, which analize it to see make sure that the tokens are placed in a correct and meaningful order. If the structure is correct, then the parser creates a Parse Tree which shows the program's structure in clear hierarchical way and helps the compiler understand the code better.
 Before making the parser LL(1), we need to check for *ambiguity* and *left recursion*
 * Ambguity: it is when the samee input string can be parsed in more than one way, producing multiple parced trees.
@@ -120,7 +120,7 @@ Det -> 'le' | 'la' | 'une' | 'un'
 ```
 In this grammar we have terminal and Non-Terminal variables, which will help us do the first and follow table, and transition table. The terminaal variables are the ones that are ging to give us to the final sentence, and the non-terminal are the ones that will give us the path to get there.
 * Non-Terminal: S, NP, A, B, C
-* Terminal: Pron, CONJ, Verb, COD, Det.<br>
+* Terminal: Pron, CONJ, Verb, COD, Det.
 
 This is my initial Grammar, given this grammar we can see that it has ambiguity, because if we try a sentence it creates more than one tree. It also hase left recursion because as we can see in NP, it diverges towards the left, making it have left recursion. In order ro have ambiguity, we have to use conjunctions or complex sentences. In this way the patterns repeat itself creating two or more trees. Using as example this sentence: `Je mange une pomme et Tu aime la musique`, which means `I eat an apple and you love music`. Given this complex sentence, we get four trees: 
 | Tree | Image |
@@ -160,7 +160,9 @@ COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison'
 Det -> 'le' | 'la' | 'une' | 'un'
 ```
 Know we are going to try it, using the python code to check if we have eliminated ambiguity completly.
+
 ![tree_1_no_ambiguity](tree_1_no_ambiguity.png)
+
 As we can see in the example we only get one tree, meaning that we have eliminated it correctly.
 
 ### Eliminate Left recursion
@@ -169,7 +171,9 @@ Now that we have eliminated ambiguity, we have to eliminate left, recursion, if 
 NP -> Pron B | NP E
 ```
 Having this, we use the following formula:
+
 ![formula](formula.png)
+
 So, we get the intermediate state NP', or in the python program is called NPP. Applying this forumla, we get the following states:
 ```python
 NP -> F NPP 
@@ -191,7 +195,7 @@ Verb -> 'est' | 'avoir' | 'mange' | 'regarde' | 'parler' | 'aime' | 'a' | 'parle
 COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison' | 'gateau' | 'salade' |'livre' | 'francais' | 'chanson' | 'radio'
 Det -> 'le' | 'la' | 'une' | 'un' 
 ```
-In order, to make sure that this process, are made corrrectly, we use the program to verify this two areas, and we get this only tree: <br>
+In order, to make sure that this process, are made corrrectly, we use the program to verify this two areas, and we get this only tree:
 ![tree_5](tree_5.png)
 ### First and Follow table
 Now, that we have our grammar with no ambiguity and left recursion, we have to the first and follow table, In this we only represent the non terminal variables, as we are lookig for the terminal variables, in order to get the sentence we are looking for:
@@ -227,9 +231,44 @@ Using the Princeton Platform (https://www.cs.princeton.edu/courses/archive/sprin
 | Verb | | | | | Verb ::= mange | | |
 | COD | | | | | | COD ::= pomme | |
 | Det | | | | | | | Det ::= une |
-## Parse with push down automata
-Here is the final grammar having all the steps behind, know we are going to explain how it was implemented and what each state represents: 
+
 ## Grammar that recognizes the language
+Here is the final grammar implemented: 
+```python
+S -> NP
+NP -> F NPP 
+NPP -> E NPP | 
+E -> CONJ F
+F -> Pron B
+B -> Verb C
+C -> Det COD
+
+Pron -> 'Je' | 'Tu' | 'Il' | 'Elle' | 'Nous' | 'Vous' | 'Ils' | 'Elles'
+CONJ -> 'et' | 'ou'
+Verb -> 'est' | 'avoir' | 'mange' | 'regarde' | 'parler' | 'aime' | 'a' | 'parle' | 'ecoute' | 'chante'
+COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison' | 'gateau' | 'salade' |'livre' | 'francais' | 'chanson' | 'radio'
+Det -> 'le' | 'la' | 'une' | 'un' 
+```
+
+Here is the final grammar having all the steps behind, know we are going to explain how it was implemented and what each state represents: 
+* Non-Terminal
+1. `S -> NP`: The starting sentence that gives us NP.
+2. `NP -> NP'`: After we apply the left recursion we get another, state. 
+3. `NP' -> E NP' | empty`: It gives us to another state where it can have a conjunction in the middle. 
+4. `E -> CONJ F`: The additio of the onjunction forr complex sentence.
+5. `F -> Pron B`: We get a pronou before the rest of the sentence.
+6. `B -> Verb C`: The rest of the sentence with the verb and the object
+7. `C -> Det COD`: This is where th object is formed with the before sentence that determines the union betwen the verb and the object
+* Terminal
+8. `Pron -> 'Je' | 'Tu' | 'Il' | 'Elle' | 'Nous' | 'Vous' | 'Ils' | 'Elles'`: The starting variables, that are allways pronouns in sentneces.
+9. `CONJ -> 'et' | 'ou'`: The conjunctions that are and or or
+10. `Verb -> 'est' | 'avoir' | 'mange' | 'regarde' | 'parler' | 'aime' | 'a' | 'parle' | 'ecoute' | 'chante'`: verbs that are conjugated in different pronouns.
+11. `COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison' | 'gateau' | 'salade' |'livre' | 'francais' | 'chanson' | 'radio'`: The words we are going to use or objects. 
+12. `Det -> 'le' | 'la' | 'une' | 'un'` the additional part od the object, that are articles.
+
+## Implementation
+
+
 
 
 ## Analysis
