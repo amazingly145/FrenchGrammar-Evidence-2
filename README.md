@@ -275,19 +275,7 @@ To test the code, a program was made where diffrent sentences are implemented an
 * `"Ils chante une chanson ou Elles regarde un tableau"`
 * `"Je ecoute une radio et Il mange un gateau"`,
 * `"Tu regarde un film ou Nous aime une pizza"`,
-* `"Elle chante un livre et Ils parle un francais"
-* `"Vous mange une salade ou Je regarde un tableau"`
-* `"Il aime une pomme et Elle ecoute une chanson"`
-* `"Nous mange un gateau ou Tu chante une radio"`
-
-### Correct sentences
-* `"Je mange une pomme et Tu aime la musique"`
-* `"Il regarde un film ou Elle ecoute une chanson"`
-* `"Nous parle un francais et Vous mange une salade"`
-* `"Ils chante une chanson ou Elles regarde un tableau"`
-* `"Je ecoute une radio et Il mange un gateau"`,
-* `"Tu regarde un film ou Nous aime une pizza"`,
-* `"Elle chante un livre et Ils parle un francais"
+* `"Elle chante un livre et Ils parle un francais"`
 * `"Vous mange une salade ou Je regarde un tableau"`
 * `"Il aime une pomme et Elle ecoute une chanson"`
 * `"Nous mange un gateau ou Tu chante une radio"`
