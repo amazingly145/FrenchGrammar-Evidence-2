@@ -269,6 +269,7 @@ Here is the final grammar having all the steps behind, know we are going to expl
 ## Implementation
 To test the code, a program was made where diffrent sentences are implemented and the program says if the sentence is accepted or not:
 ### Correct sentences
+In the correct sentence it follows the french pattern: Pronoun, verb and object:
 * `"Je mange une pomme et Tu aime la musique"`
 * `"Il regarde un film ou Elle ecoute une chanson"`
 * `"Nous parle un francais et Vous mange une salade"`
@@ -281,6 +282,7 @@ To test the code, a program was made where diffrent sentences are implemented an
 * `"Nous mange un gateau ou Tu chante une radio"`
 
 ### Incorrect sentences
+The incorrect sentences switch the part of the french structure so it should be rejected.
 * `"un pomme mange Je et un pizza mange Tu"`
 * `"la musique aime Tu ou le film regarde Il"`
 * `"une chanson ecoute Elle et une radio chante Nous"`
