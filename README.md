@@ -105,7 +105,7 @@ Before making the parser LL(1), we need to check for *ambiguity* and *left recur
 * Left recursion: the tree can only grow towards the left not the right
 
 ### Initial Grammar
-```pyton
+```python
 S -> NP
 NP -> Pron B | A
 A -> NP CONJ NP | NP
@@ -130,24 +130,69 @@ This is my initial Grammar, given this grammar we can see that it has ambiguity,
 | Third tree | ![tree_3](tree_3.png) |
 | Fourth tree | ![tree_4](tree_4.png) |
 ### Eliminate ambiguity
-In order to eliminate ambiguity, you have to add intermidate states or subgroups, that indicates a presedence. After having a long time to process this, we get the following grammat without ambiguity: 
-```pyton
-S -> NP
-    NP -> Pron B | NP E
-    E -> CONJ F
-    F -> Pron B
-    B -> Verb C
-    C -> Det COD
+In order to eliminate ambiguity, you have to add intermidate states or subgroups, that indicates a presedence. In order to eiliminate ambiguity, I realized that it starts with Non-Terminal states A and NP, so I divided them in more subgroups and eliminated the A state:
 
-    Pron -> 'Je' | 'Tu' | 'Il' | 'Elle' | 'Nous' | 'Vous' | 'Ils' | 'Elles'
-    CONJ -> 'et' | 'ou'
-    Verb -> 'etre' | 'avoir' | 'mange' | 'regarde' | 'parler' | 'aime'
-    COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison'
-    Det -> 'le' | 'la' | 'une' | 'un'
+* From
+```python
+S -> NP
+NP -> Pron B | A
+A -> NP CONJ NP | NP
+```
+* To
+```python
+NP -> Pron B | NP E
+E -> CONJ F
+F -> Pron B
+```
+After having a long time to process this, we get the following grammat without ambiguity: 
+```python
+S -> NP
+NP -> Pron B | NP E
+E -> CONJ F
+F -> Pron B
+B -> Verb C
+C -> Det COD
+
+Pron -> 'Je' | 'Tu' | 'Il' | 'Elle' | 'Nous' | 'Vous' | 'Ils' | 'Elles'
+CONJ -> 'et' | 'ou'
+Verb -> 'est' | 'avoir' | 'mange' | 'regarde' | 'parler' | 'aime' | 'a' | 'parle' | 'ecoute' | 'chante'
+COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison' | 'gateau' | 'salade' |'livre' | 'francais' | 'chanson' | 'radio'
+Det -> 'le' | 'la' | 'une' | 'un'
 ```
 Know we are going to try it, using the python code to check if we have eliminated ambiguity completly.
 ![tree_1_no_ambiguity](tree_1_no_ambiguity.png)
 As we can see in the example we only get one tree, meaning that we have eliminated it correctly.
+
+### Eliminate Left recursion
+Now that we have eliminated ambiguity, we have to eliminate left, recursion, if we see the tree we can see this tendancy in NP and we also see it, in this part, as NP repeats itself recursively in the left area: 
+```python
+NP -> Pron B | NP E
+```
+Having this, we use the following formula:
+![formula](formula.png)
+So, we get the intermediate state NP', or in the python program is called NPP. Applying this forumla, we get the following states:
+```python
+NP -> F NPP 
+NPP -> E NPP | 
+```
+The empty state is called epsilon, which is the final state that the sentence reaches. Now that we have eliminated ambiguity and left recursion, we get the following grammarr: 
+```python
+S -> NP
+NP -> F NPP 
+NPP -> E NPP | 
+E -> CONJ F
+F -> Pron B
+B -> Verb C
+C -> Det COD
+
+Pron -> 'Je' | 'Tu' | 'Il' | 'Elle' | 'Nous' | 'Vous' | 'Ils' | 'Elles'
+CONJ -> 'et' | 'ou'
+Verb -> 'est' | 'avoir' | 'mange' | 'regarde' | 'parler' | 'aime' | 'a' | 'parle' | 'ecoute' | 'chante'
+COD -> 'film' | 'pomme' | 'musique' | 'orange' | 'pizza' | 'peinture' | 'maison' | 'gateau' | 'salade' |'livre' | 'francais' | 'chanson' | 'radio'
+Det -> 'le' | 'la' | 'une' | 'un' 
+```
+In order, to make sure that this process, are made corrrectly, we use the program to verify this two areas, and we get this only tree:
+![tree_5](tree_5.png)
 ## Grammar that recognizes the language
 
 ## Analysis
