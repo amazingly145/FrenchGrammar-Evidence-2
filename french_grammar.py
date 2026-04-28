@@ -119,7 +119,7 @@ print("Gramatica sin ambiguedad y recursividad a la izquierda")
 #NPP es NP'
 grammar = CFG.fromstring("""
     S -> NP
-    NP -> Pron B NPP 
+    NP -> F NPP 
     NPP -> E NPP | 
     E -> CONJ F
     F -> Pron B
