@@ -267,11 +267,51 @@ Here is the final grammar having all the steps behind, know we are going to expl
 12. `Det -> 'le' | 'la' | 'une' | 'un'` the additional part od the object, that are articles.
 
 ## Implementation
+To test the code, a program was made where diffrent sentences are implemented and the program says if the sentence is accepted or not:
+### Correct sentences
+* `"Je mange une pomme et Tu aime la musique"`
+* `"Il regarde un film ou Elle ecoute une chanson"`
+* `"Nous parle un francais et Vous mange une salade"`
+* `"Ils chante une chanson ou Elles regarde un tableau"`
+* `"Je ecoute une radio et Il mange un gateau"`,
+* `"Tu regarde un film ou Nous aime une pizza"`,
+* `"Elle chante un livre et Ils parle un francais"
+* `"Vous mange une salade ou Je regarde un tableau"`
+* `"Il aime une pomme et Elle ecoute une chanson"`
+* `"Nous mange un gateau ou Tu chante une radio"`
 
+### Correct sentences
+* `"Je mange une pomme et Tu aime la musique"`
+* `"Il regarde un film ou Elle ecoute une chanson"`
+* `"Nous parle un francais et Vous mange une salade"`
+* `"Ils chante une chanson ou Elles regarde un tableau"`
+* `"Je ecoute une radio et Il mange un gateau"`,
+* `"Tu regarde un film ou Nous aime une pizza"`,
+* `"Elle chante un livre et Ils parle un francais"
+* `"Vous mange une salade ou Je regarde un tableau"`
+* `"Il aime une pomme et Elle ecoute une chanson"`
+* `"Nous mange un gateau ou Tu chante une radio"`
 
+### Incorrect sentences
+* `"un pomme mange Je et un pizza mange Tu",`
+* `"la musique aime Tu ou le film regarde Il",`
+* `"une chanson ecoute Elle et une radio chante Nous",`
+* `"un gateau mange Vous ou un tableau regarde Ils",`
+* `"une pomme mange Je et Tu aime la musique",`
+* `"un film regarde Il ou Elle ecoute une chanson",`
+* `"la pizza aime Tu et Nous parle un francais",`
+* `"Je mange une pomme et la musique aime Tu",`
+* `"Il regarde un film ou une chanson ecoute Elle",`
+* `"Tu aime la pizza et un francais parle Nous",`
+* `"Je pomme mange une et Tu musique aime la",`
+* `"Il film regarde un ou Elle chanson ecoute une",`
+### Running the program
 
 
 ## Analysis
+### Asymptotic analysis
+### Type of Grammar
+### Other methods
 
 ## References
 https://www.ebsco.com/research-starters/language-and-linguistics/french-language
