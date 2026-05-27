@@ -302,9 +302,9 @@ Menawhile, if you just want to see the final result or code you can get into the
 
 ## Analysis
 ### Asymptotic analysis
-The code has an asymptotical analysis of O(n), as it only uses one for cycle, but it is important to note that this process is done repetetively with each one of the words, which adds and extra level of complexity. Since, this grammar is represented to only create one tree, meaning that it has no ambiguity and left recursiveness. So the for loop is O(1), this is not the best implementation but it in complexity is not that bad, as it doesn't have a lot of for loops.
+The code has an asymptotical analysis of O(n^3), this due to Chart Parser filling a triangular table of n * n. Each word in a sentence is considered a token. For each cell[i] [j] in the table, the algorithim evaluates to n possbilities, splits points k between ths postion, giving us a nested solution. So this makes the complexity of our program O(n^3). Each token evaluates different n points of cutting, so if there are two sides it makes it a space complexity of n^2. Using the chomsky jerarqy, my code and grammar is free of context as in the left side there is only one non-terminal.
 ### Type of Grammar
-This is done with the chomsky method, which is used to get the LL(1). This is done through the process done before:
+This grammar was built following the standard LL(1) construction process. This is done through the process done before:
 1. Eliminate ambiguity..
 2. Eliminate Left recursion
 3. First and Follow table
@@ -312,7 +312,7 @@ This is done with the chomsky method, which is used to get the LL(1). This is do
 
 Through this steps we get a LL(1), which is a parsing method that helps us analyza the structure of a grammar of a language, and in this way the code can recognize this patterns and determine wether a sentence is correct or incorrect.
 ### Other methods
-I asked claude about it, and he gave me other solutions using differente libraries, which can help in the complexity, like the Lark library that is designed to build parser, which this would make the code feel more natural and nt that forced. Helping in the complexity area. It alse ceates th tree faster and it suppots both: top down and bottom up parding. Like the following code example: 
+I asked claude about it, and he gave me other solutions using differente libraries, which can help in the complexity, like the Lark library that is designed to build parser, which this would make the code feel more natural and nt that forced. Helping in the complexity area. It also ceates the tree faster and it suppots both: top down and bottom up parsing. Like the following code example: 
 ```python
 from lark import Lark
 
@@ -337,7 +337,7 @@ for i in range(len(sentences)):
     except:
         print("[REJECTED] " + sentences[i])
 ```
-As you can see it is implemented differently, but at the end of the day you get the same result except that faster 
+As you can see it is implemented differently, but at the end of the day you get the same result except that faster. For it's time ccomplexity iss very similar, but in the solution above, it is better to visually see the tree.
 
 ## References
 EBSCO Information Services. (2024). *French language*. EBSCO Research Starters. 
