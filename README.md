@@ -302,10 +302,23 @@ Menawhile, if you just want to see the final result or code you can get into the
 
 ## Analysis
 ### Asymptotic analysis
-The code has an asymptotical analysis of O(n^3), this due to Chart Parser filling a triangular table of n * n. Each word in a sentence is considered a token. For each cell[i] [j] in the table, the algorithim evaluates to n possbilities, splits points k between ths postion, giving us a nested solution. So this makes the complexity of our program O(n^3). Each token evaluates different n points of cutting, so if there are two sides it makes it a space complexity of n^2. Using the chomsky jerarqy, my code and grammar is free of context as in the left side there is only one non-terminal.
+
+For this code I used the library Natural Language Toolkit (NLTK), which is a Python Library that plays an important role in enabling machines to understand and generate human language. It provides a combination of linguistic respurces. Some of the operations on textual data like (O'Reilly, p.1-10):
+- Classification.
+- Tokanizations.
+- Stemming.
+- Semantic reasoning.
+- Tagging.
+
+In this case I used different functions in this library. One of them was tokanization, which is the segmentation of a paragraphs into sentences, and then into words or characters.
+
+Using the chomsky hierarchy table, we can get to an understanding of the time complexity of our code:
+![formula](chomsky_analysis.png)
+
+Because our code is Context free, meaning that we have eliminated left recursion and ambiguity. The grammar can be parsed by a push down automaton. Our code has a time complexity of O(n^2). This is beacuse, we don't have Non Terminal in the terminal side. Analyzing the API documentations in the side of the NLTK library, it says that the library has a complexity of O(n^2) this is beacuse the parser fills a chart with i and j column. This gives my code a general complexity of O(n^2).
 ### Type of Grammar
 This grammar was built following the standard LL(1) construction process. This is done through the process done before:
-1. Eliminate ambiguity..
+1. Eliminate ambiguity.
 2. Eliminate Left recursion
 3. First and Follow table
 4. Parsing table.
@@ -351,3 +364,13 @@ https://www.ebsco.com/research-starters/language-and-linguistics/french-language
 
 Princeton University. (2020). *LL(1) parser generator*. Department of Computer Science, COS320. 
 https://www.cs.princeton.edu/courses/archive/spring20/cos320/LL1/
+
+Bird, S., Klein, E., & Loper, E. (2009). Natural language processing with Python. O'Reilly Media. https://tjzhifei.github.io/resources/NLTK.pdf
+
+Vinter, Í. (2023, February 5). Context-free grammar in Python using NLTK for NLP + examples. Medium. https://medium.com/@ivarrvinter/context-free-grammar-in-python-using-nltk-for-nlp-examples-d76726514897
+
+Bird, S., Klein, E., & Loper, E. (2009). Natural language processing with Python (online ed.). NLTK Project. https://www.nltk.org/book/
+
+NLTK Project. (2024). NLTK API documentation. https://www.nltk.org/api/nltk.html
+
+GeeksforGeeks. (2026, January 19). NLTK – NLP. GeeksforGeeks. https://www.geeksforgeeks.org/python/nltk-nlp/

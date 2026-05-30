@@ -1,6 +1,7 @@
 import nltk
 from nltk import CFG
 
+# nltk.download('punkt')
 
 # Grammar with ambiguety and left recursion
 grammar = CFG.fromstring("""
