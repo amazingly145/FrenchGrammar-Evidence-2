@@ -325,22 +325,67 @@ This grammar was built following the standard LL(1) construction process. This i
 
 Through this steps we get a LL(1), which is a parsing method that helps us analyza the structure of a grammar of a language, and in this way the code can recognize this patterns and determine wether a sentence is correct or incorrect.
 ### Other methods
-I asked claude about it, and he gave me other solutions using differente libraries, which can help in the complexity, like the Lark library that is designed to build parser, which this would make the code feel more natural and nt that forced. Helping in the complexity area. It also ceates the tree faster and it suppots both: top down and bottom up parsing. Like the following code example: 
+For the second solution I investigated different libraries that could be used or implemented in order to parser our grammar. I investigated a library called Lark library.
+The code could also be implemented using this library by similar to the NLTK library. You have to state the sentence you want to parse, and the grammar without left recursion and ambiguity. Instead of printing the whole tree, it only tells you if the sentence is accepted or rejected. This library also uses a method of tokanization like NLTK library. Eventhough it doesn't print the tree, it does build it to get the accepted or rejected sentence.
 ```python
-from lark import Lark
+"""
+Handling Ambiguity
+==================
+
+A demonstration of ambiguity
+
+This example shows how to use get explicit ambiguity from Lark's Earley parser.
+
+"""
+import sys
+from lark import Lark, tree
 
 grammar = """
-    start: np
-    np: pron verb det cod
-    pron: "Je" | "Tu" | "Il" | "Elle"
-    verb: "mange" | "aime" | "regarde"
-    det: "le" | "la" | "une" | "un"
-    cod: "pomme" | "film" | "musique"
+    sentence: noun verb noun        -> simple
+            | noun verb "like" noun -> comparative
+
+    noun: adj? NOUN
+    verb: VERB
+    adj: ADJ
+
+    NOUN: "flies" | "bananas" | "fruit"
+    VERB: "like" | "flies"
+    ADJ: "fruit"
+
+    %import common.WS
+    %ignore WS
 """
 
-parser = Lark(grammar)
+parser = Lark(grammar, start='sentence', ambiguity='explicit')
 
-sentences = ["Je mange une pomme", "Tu aime la musique"]
+sentence = 'fruit flies like bananas'
+
+def make_png(filename):
+    tree.pydot__tree_to_png( parser.parse(sentence), filename)
+
+def make_dot(filename):
+    tree.pydot__tree_to_dot( parser.parse(sentence), filename)
+
+if __name__ == '__main__':
+    print(parser.parse(sentence).pretty())
+    # make_png(sys.argv[1])
+    # make_dot(sys.argv[1])
+
+# Output:
+#
+# _ambig
+#   comparative
+#     noun	fruit
+#     verb	flies
+#     noun	bananas
+#   simple
+#     noun
+#       fruit
+#       flies
+#     verb	like
+#     noun	bananas
+#
+# (or view a nicer version at "./fruitflies.png")
 
 for i in range(len(sentences)):
     try:
@@ -350,7 +395,15 @@ for i in range(len(sentences)):
     except:
         print("[REJECTED] " + sentences[i])
 ```
-As you can see it is implemented differently, but at the end of the day you get the same result except that faster. For it's time ccomplexity iss very similar, but in the solution above, it is better to visually see the tree.
+As you can see it is implemented differently, but at the end of the day you get the same result except that faster. For it's time complexity iss very similar, but in the solution above, it is better to visually see the tree. In the following images we can see different graphs from the API documentation, where they compare the time complexity and memory usage in the library with other Python libraries.
+
+In this chart we can see that Lark is lighter and faster, comparing to to other libraries. In parsing the memory usage is of 224 mb comparing to 256 mb. But if we compare in the LALR(1), the lark library is slower.
+![formula](lark_memory_usage_comparison.png)
+
+Comparing, the run-time using the graph, we can see that the Lark library uses 224 seconds to run compraing to 256 seconds of other python libraries. The only library that us slower is with the LALR(1). But we can see that it is true that this library is much faster and lighter.
+![formula](lark_runtime_comparison.png)
+
+Comparing both libraries NLTK and Lark library. Both have similar time complexity, in this case you have to choose if you want to visualize the grammar tree (NLTK) or you just want erfficiency and speed (Lark).
 
 ## References
 EBSCO Information Services. (2024). *French language*. EBSCO Research Starters. 
@@ -374,3 +427,9 @@ Bird, S., Klein, E., & Loper, E. (2009). Natural language processing with Python
 NLTK Project. (2024). NLTK API documentation. https://www.nltk.org/api/nltk.html
 
 GeeksforGeeks. (2026, January 19). NLTK – NLP. GeeksforGeeks. https://www.geeksforgeeks.org/python/nltk-nlp/
+
+Lark-parser contributors. (2024). Lark: A parsing toolkit for Python [Software]. GitHub. https://github.com/lark-parser/lark
+
+Lark-parser contributors. (2024). Tree construction — Lark documentation. Read the Docs. https://lark-parser.readthedocs.io/en/stable/tree_construction.html
+
+Bird, S., Klein, E., & Loper, E. (2014). Natural language processing with Python: Extras for chapter 4. NLTK Project. https://www.nltk.org/book_1ed/ch04-extras.html
