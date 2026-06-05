@@ -316,6 +316,18 @@ Using the chomsky hierarchy table, we can get to an understanding of the time co
 ![formula](chomsky_analysis.png)
 
 Because our code is Context free, meaning that we have eliminated left recursion and ambiguity. The grammar can be parsed by a push down automaton. Our code has a time complexity of O(n^2). This is beacuse, we don't have Non Terminal in the terminal side. Analyzing the API documentations in the side of the NLTK library, it says that the library has a complexity of O(n^2) this is beacuse the parser fills a chart with i and j column. This gives my code a general complexity of O(n^2).
+Como se puede ver en la siguiente tabla: ## Chart Parser — Je mange la pomme
+
+| i \ j | 0 | 1 | 2 | 3 | 4 |
+|-------|---|---|---|---|---|
+| **0** | — | Pron → Je • <br> NP → Pron • B | — | — | NP → Pron B • <br> S → NP • <br> A → NP • CONJ NP <br> A → NP • <br> NP → A • |
+| **1** | — | — | Verb → mange • <br> B → Verb • C | — | B → Verb C • |
+| **2** | — | — | — | Det → la • <br> C → Det • COD | C → Det COD • |
+| **3** | — | — | — | — | COD → pomme • |
+| **4** | — | — | — | — | — |
+
+---
+
 ### Type of Grammar
 This grammar was built following the standard LL(1) construction process. This is done through the process done before:
 1. Eliminate ambiguity.
